@@ -26,5 +26,7 @@ urlpatterns = [
     re_path('products/', include('products.urls')),
     re_path('billings/', include('billings.urls')),
     re_path('docs/', include_docs_urls(title='Restaurant API')),
+    re_path('auth/', include('dj_rest_auth.urls')),
+    re_path('auth/registration/', include('dj_rest_auth.registration.urls'))
 
 ]

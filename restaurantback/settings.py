@@ -42,6 +42,7 @@ if RENDER_EXTERNAL_HOSTNAME:
 
 INSTALLED_APPS = [
     'django.contrib.admin',
+    'django.contrib.sites',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
@@ -50,6 +51,12 @@ INSTALLED_APPS = [
     'sequences.apps.SequencesConfig',
     'corsheaders',
     'rest_framework',
+    'rest_framework.authtoken',
+    'dj_rest_auth',
+    'allauth',
+    'allauth.account',
+    'allauth.socialaccount',
+    'dj_rest_auth.registration',
     'coreapi',
     'products',
     'accounts',
@@ -59,6 +66,7 @@ INSTALLED_APPS = [
 
 
 ]
+SITE_ID=1
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -94,6 +102,16 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'restaurantback.wsgi.application'
 
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+ACCOUNT_EMAIL_REQUIRED = True
+ACCOUNT_AUTHENTICATION_METHOD = 'username'
+ACCOUNT_EMAIL_VERIFICATION = 'optional'
+
+REST_AUTH = {
+    'OLD_PASSWORD_FIELD_ENABLED': True,
+    'REGISTER_SERIALIZER': 'accounts.serializer.UserSerializer',
+
+}
 
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
