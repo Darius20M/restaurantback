@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Confirmación de reserva</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+        }
+        h1 {
+            color: #333;
+        }
+        p {
+            margin-bottom: 15px;
+        }
+        .reservation-details {
+            background-color: #f5f5f5;
+            padding: 10px;
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Confirmación de reserva</h1>
+    <p>Estimado/a {{ user.first_name }},</p>
+
+    <p>Su reserva ha sido creada exitosamente. A continuación, se muestra la información de tu reserva:</p>
+
+    <div class="reservation-details">
+        <p><strong>ID de reserva:</strong> {{ reservation_id }}</p>
+        <p><strong>Fecha de reserva:</strong> {{ reservation_date }}</p>
+        <p><strong>Hora de llegada:</strong> {{ reservation_time }}</p>
+        <p><strong>Mesa reservada:</strong> {{ table_name }}</p>
+        <p><strong>Capacidad de la mesa:</strong> {{ table_capacity }}</p>
+    </div>
+    <p>Para confirmar tu reserva, haz clic en el siguiente enlace:</p>
+    <a href="{{ redirect_url }}">Confirmar reserva</a>
+
+
+    <p>Gracias por elegir nuestro servicio. Si tienes alguna pregunta o necesitas más información, no dudes en contactarnos.</p>
+
+    <p>Saludos cordiales,</p>
+    <p>Tu equipo de reservas</p>
+</body>
+</html>

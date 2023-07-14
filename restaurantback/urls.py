@@ -18,6 +18,7 @@ from django.contrib import admin
 from rest_framework.documentation import include_docs_urls
 from django.urls import path, re_path, include
 
+
 urlpatterns = [
     re_path('admin/', admin.site.urls),
     re_path('reservations/', include('reservations.urls')),
@@ -27,6 +28,7 @@ urlpatterns = [
     re_path('billings/', include('billings.urls')),
     re_path('docs/', include_docs_urls(title='Restaurant API')),
     re_path('auth/', include('dj_rest_auth.urls')),
-    re_path('auth/registration/', include('dj_rest_auth.registration.urls'))
+    re_path('auth/registration/', include('dj_rest_auth.registration.urls')),
+
 
 ]

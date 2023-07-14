@@ -14,6 +14,11 @@ from pathlib import Path
 import os
 import dj_database_url
 
+import environ
+
+env = environ.Env()
+environ.Env.read_env()
+
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -37,6 +42,8 @@ RENDER_EXTERNAL_HOSTNAME = os.environ.get('RENDER_EXTERNAL_HOSTNAME')
 
 if RENDER_EXTERNAL_HOSTNAME:
     ALLOWED_HOSTS.append(RENDER_EXTERNAL_HOSTNAME)
+
+BASE_URL = env('BASE_URL')
 
 # Application definition
 
@@ -102,7 +109,13 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'restaurantback.wsgi.application'
 
-EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+EMAIL_BACKEND='django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST='smtp.gmail.com'
+EMAIL_USE_TLS=True
+EMAIL_PORT=587
+EMAIL_HOST_USER='dariusjosedelacruzhilario@gmail.com'
+DJANGO_FROM_EMAIL='dariusjosedelacruzhilario@gmail.com'
+EMAIL_HOST_PASSWORD='lpsrosgrnpygneqi'
 ACCOUNT_EMAIL_REQUIRED = True
 ACCOUNT_AUTHENTICATION_METHOD = 'username'
 ACCOUNT_EMAIL_VERIFICATION = 'optional'

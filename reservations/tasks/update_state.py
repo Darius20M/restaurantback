@@ -6,7 +6,7 @@ from django.utils import timezone
 
 
 def update_state():
-    reservation: ReservationModel = ReservationModel.objects.filter(status='pending')
+    reservation: ReservationModel = ReservationModel.objects.filter(status__in=['Pending', 'Confirmed'])
 
     for data in reservation:
         now = timezone.now()

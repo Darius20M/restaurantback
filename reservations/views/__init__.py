@@ -2,4 +2,5 @@ from .reservation_viewset import ReservationViewSet
 from .tables_viewset import TableViewSet
 from .create_reservation_viewset import CreateReservationViewSet
 from .cancel_reservation_viewset import CancelReservationViewSet
+from .confirm_reservation_view import confirm_reservation_view
 
