@@ -63,6 +63,7 @@ INSTALLED_APPS = [
     'allauth',
     'allauth.account',
     'allauth.socialaccount',
+    'allauth.socialaccount.providers.google',
     'dj_rest_auth.registration',
     'coreapi',
     'products',
@@ -70,6 +71,7 @@ INSTALLED_APPS = [
     'billings',
     'orders',
     'reservations',
+    'security',
 
 
 ]
@@ -117,8 +119,11 @@ EMAIL_HOST_USER='dariusjosedelacruzhilario@gmail.com'
 DJANGO_FROM_EMAIL='dariusjosedelacruzhilario@gmail.com'
 EMAIL_HOST_PASSWORD='lpsrosgrnpygneqi'
 ACCOUNT_EMAIL_REQUIRED = True
-ACCOUNT_AUTHENTICATION_METHOD = 'username'
+#ACCOUNT_AUTHENTICATION_METHOD = ['username', 'email']
 ACCOUNT_EMAIL_VERIFICATION = 'optional'
+
+#ACCOUNT_EMAIL_VERIFICATION = "mandatory"
+
 
 REST_AUTH = {
     'OLD_PASSWORD_FIELD_ENABLED': True,
@@ -199,6 +204,24 @@ if not DEBUG:
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+SOCIALACCOUNT_PROVIDERS = {
+    'google': {
+        'APP': {
+            'client_id': "246322974788-vao3rqf7tkft96r4p02speg49ovah837.apps.googleusercontent.com",
+            'secret': "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",
+            'key': ''
+        },
+        'SCOPE': [
+            'profile',
+            'email',
+        ],
+        'AUTH_PARAMS': {
+            'access_type': 'online',
+        },
+        'OAUTH_PKCE_ENABLED': True,
+    }
+}
 
 REST_FRAMEWORK = {
     'DEFAULT_SCHEMA_CLASS': 'rest_framework.schemas.coreapi.AutoSchema',

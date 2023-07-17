@@ -15,12 +15,12 @@ class CreateOrderSerializer(serializers.Serializer):
     products = ProductSerializer(many=True, required=True)
 
 """{
-  "reservation_id": 1,
+  "reservation_id": 35,
   "customer_first_name": "John",
   "customer_last_name": "Doe",
   "place_chair": "A1",
   "products": [
-    {"product_id": 1, "quantity": 2},
+    {"product_id": 2, "quantity": 2},
     {"product_id": 2, "quantity": 3}
   ]
 }"""

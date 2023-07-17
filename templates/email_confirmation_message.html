@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Confirmación de correo electrónico</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+            background-color: #f8f8f8;
+        }
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #ffffff;
+        }
+        .logo {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .logo img {
+            max-width: 200px;
+            height: auto;
+        }
+        .message {
+            margin-bottom: 30px;
+        }
+        .button {
+            display: inline-block;
+            padding: 15px 25px;
+            background-color: #007bff;
+            color: #ffffff;
+            text-decoration: none;
+            font-weight: bold;
+            border-radius: 4px;
+        }
+        .button:hover {
+            background-color: #0056b3;
+        }
+        .footer {
+            margin-top: 30px;
+            text-align: center;
+            color: #888888;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="logo">
+            <img src="https://example.com/logo.png" alt="Logo">
+        </div>
+        <div class="message">
+            <h2 style="font-size: 24px; color: #333333; margin-bottom: 20px;">Confirmación de correo electrónico</h2>
+            <p style="font-size: 16px; color: #555555;">Gracias por registrarte. Por favor, confirma tu dirección de correo electrónico haciendo clic en el siguiente botón:</p>
+        </div>
+        <div class="button-container">
+            <a href="http://localhost:8000/auth/registration/account-confirm-email/<str:key>/" class="button" style="font-size: 18px;">Confirmar correo electrónico</a>
+        </div>
+        <div class="footer" style="font-size: 14px;">
+            <p>Este correo electrónico fue generado automáticamente. Por favor, no respondas a este mensaje.</p>
+        </div>
+    </div>
+</body>
+</html>

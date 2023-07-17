@@ -7,6 +7,7 @@ from rest_framework.exceptions import ValidationError
 
 
 from accounts.models import CustomerModel
+from orders.handlers.valid_stock_product import valid_stock_product
 from orders.models import OrdersModel, OrderDetailModel
 from orders.serializer import OrderDetailSerializer
 from orders.serializer import CreateOrderSerializer
@@ -60,18 +61,21 @@ class CreateOrderViewSet(APIView):
 
             order_header = get_or_create_order(customer_object, reservation_object, order_serializer.validated_data['place_chair'])
 
-            # aqui ira un for para ir guardadndo los product
+            order_details = []  # Lista para almacenar los objetos OrderDetailModel
             for product_data in order_serializer.validated_data['products']:
                 product_id = product_data['product_id']
                 quantity = product_data['quantity']
 
-                product_object = ProductModel.objects.get(id=product_id)
+                product_object = valid_stock_product(product_id, quantity)
 
-                order_detail = OrderDetailModel.objects.create(
+                order_detail = OrderDetailModel(
                     order=order_header,
                     product=product_object,
                     quantity=quantity
                 )
+                order_details.append(order_detail)
+
+            OrderDetailModel.objects.bulk_create(order_details)
 
             return Response(order_serializer.data, status=status.HTTP_201_CREATED)
         else:

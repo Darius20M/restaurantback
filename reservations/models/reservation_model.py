@@ -6,7 +6,7 @@ from django.conf import settings
 
 class ReservationModel(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, related_name='reserve', on_delete=models.CASCADE)
-    email = models.EmailField(max_length=100)
+    phone = models.CharField(max_length=25)
     table = models.ForeignKey('reservations.TableModel', on_delete=models.CASCADE)
     checkin = models.DateTimeField(default=timezone.now)
     status = models.CharField(max_length=20, choices=STATUS_R, default=STATUS_R.pending, null=False,

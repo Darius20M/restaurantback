@@ -15,7 +15,7 @@ class ReservationSerializer(serializers.ModelSerializer):
     class Meta:
         model = ReservationModel
         fields = (
-            'id','checkin','email', 'table','user','user_id', 'table_id','status', 'created', 'modified',
+            'id','checkin','phone', 'table','user','user_id', 'table_id','status', 'created', 'modified',
         )
         read_only_fields = ('id', 'created', 'modified',)
 

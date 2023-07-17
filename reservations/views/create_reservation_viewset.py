@@ -14,6 +14,7 @@ def get_valid_reservation(user):
         reserva = ReservationModel.objects.filter(user=user, status='Pending').exists()
     except ReservationModel.DoesNotExist:
         return False
+
     return reserva
 
 def get_table(capacity):
@@ -32,6 +33,9 @@ class CreateReservationViewSet(APIView):
         serializer = CreateReservationSerializer(data=request.data)
         if serializer.is_valid():
 
+            if request.user.is_anonymous:
+                #return redirect('nombre_de_la_vista_de_registro_o_inicio_de_sesion')
+                return Response("logueate", status=status.HTTP_400_BAD_REQUEST)
 
             if get_valid_reservation(user=request.user):
                 return Response("No puedes reservar tienes reserva pendiente", status=status.HTTP_400_BAD_REQUEST)
@@ -42,11 +46,13 @@ class CreateReservationViewSet(APIView):
                 return Response("Estas mesas no hay disponibles", status=status.HTTP_400_BAD_REQUEST)
 
             table_object.status = 'Reserved'
-            #table_object.save()
+            table_object.save()
 
             reservation = ReservationModel.objects.create(
                 user=request.user,
+                phone= serializer.validated_data['phone'],
                 table=table_object,
+                checkin= serializer.validated_data['checkin'],
                 status='Pending'
             )
             send_reservation_email(request.user, reservation.id, reservation.checkin.date, reservation.checkin.time,
