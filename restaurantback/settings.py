@@ -81,8 +81,9 @@ MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    "corsheaders.middleware.CorsMiddleware",
     'django.middleware.common.CommonMiddleware',
-    'django.middleware.csrf.CsrfViewMiddleware',
+    #'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
@@ -121,6 +122,8 @@ EMAIL_HOST_PASSWORD='lpsrosgrnpygneqi'
 ACCOUNT_EMAIL_REQUIRED = True
 #ACCOUNT_AUTHENTICATION_METHOD = ['username', 'email']
 ACCOUNT_EMAIL_VERIFICATION = 'optional'
+
+#ACCOUNT_ADAPTER = 'security.adapters.CustomAccountAdapter'
 
 #ACCOUNT_EMAIL_VERIFICATION = "mandatory"
 
@@ -222,6 +225,13 @@ SOCIALACCOUNT_PROVIDERS = {
         'OAUTH_PKCE_ENABLED': True,
     }
 }
+
+CORS_ALLOWED_ORIGINS = [
+    "https://example.com",
+    "https://sub.example.com",
+    "http://localhost:3000",
+    "http://127.0.0.1:9000",
+]
 
 REST_FRAMEWORK = {
     'DEFAULT_SCHEMA_CLASS': 'rest_framework.schemas.coreapi.AutoSchema',
