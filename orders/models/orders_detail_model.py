@@ -14,6 +14,9 @@ class OrderDetailModel(models.Model):
     def total_price(self):
         return self.quantity * self.product.price
 
+    def _str_(self):
+        return str(self.id)
+
     class Meta:
         db_table = 'pr_ordersdetail_t'
         app_label = 'orders'

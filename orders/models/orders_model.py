@@ -22,6 +22,9 @@ class OrdersModel(models.Model):
         db_table = 'pr_orders_t'
         app_label = 'orders'
 
+    def __str__(self):
+        return self.customer.first_name
+
     def save(self, *args, **kwargs):
         if not self.id:
             self.created = timezone.now()

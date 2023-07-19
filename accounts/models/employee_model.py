@@ -18,6 +18,9 @@ class EmployeeModel(models.Model):
         db_table = 'pr_employee_t'
         app_label = 'products'
 
+    def __str__(self):
+        return self.firstName
+
     def save(self, *args, **kwargs):
         if not self.id:
             self.created = timezone.now()

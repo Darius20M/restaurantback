@@ -14,6 +14,9 @@ class SupplierModel(models.Model):
         db_table = 'acc_supplier_t'
         app_label = 'accounts'
 
+    def __str__(self):
+        return self.first_name
+
     def save(self, *args, **kwargs):
         if not self.id:
             self.created = timezone.now()

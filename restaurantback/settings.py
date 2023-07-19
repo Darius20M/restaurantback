@@ -14,27 +14,25 @@ from pathlib import Path
 import os
 import dj_database_url
 
+
 import environ
 
 env = environ.Env()
 environ.Env.read_env()
 
-
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
-
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-#SECRET_KEY = 'django-insecure-a(p4$3r*+4c@@ft%4j5uhqe+pwbqfb$#5b4)3pvi-_f@_3mr%9'
+# SECRET_KEY = 'django-insecure-a(p4$3r*+4c@@ft%4j5uhqe+pwbqfb$#5b4)3pvi-_f@_3mr%9'
 SECRET_KEY = os.environ.get('SECRET_KEY', default='your secret key')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-#DEBUG = True
+# DEBUG = True
 DEBUG = 'RENDER' not in os.environ
-
 
 ALLOWED_HOSTS = []
 
@@ -48,6 +46,7 @@ BASE_URL = env('BASE_URL')
 # Application definition
 
 INSTALLED_APPS = [
+    'jazzmin',
     'django.contrib.admin',
     'django.contrib.sites',
     'django.contrib.auth',
@@ -73,10 +72,35 @@ INSTALLED_APPS = [
     'reservations',
     'security',
 
-
 ]
-SITE_ID=1
+SITE_ID = 1
 
+JAZZMIN_SETTINGS = {
+    "site_title": "Library Admin",
+    "site_header": "Delicias a la brasa",
+    "site_brand": "Delicias a la brasa",
+    # "site_logo": "books/img/logo.png",
+    "login_logo": None,
+    "login_logo_dark": None,
+    "site_logo_classes": "img-circle",
+    "site_icon": None,
+    "welcome_sign": "Bienvenido a la Delicias a la brasa",
+    "copyright": "Darius LLC",
+    "search_model": ["auth.User", "auth.Group"],
+    # "user_avatar": None,
+
+    "show_sidebar": True,
+    "navigation_expanded": True,
+    "topmenu_links": [
+        {"app": "auth"},
+        {"app": "books"},
+    ],
+
+    "show_ui_builder": True,
+
+
+}
+#JAZZMIN_SETTINGS["show_ui_builder"] = True
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'whitenoise.middleware.WhiteNoiseMiddleware',
@@ -112,20 +136,20 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'restaurantback.wsgi.application'
 
-EMAIL_BACKEND='django.core.mail.backends.smtp.EmailBackend'
-EMAIL_HOST='smtp.gmail.com'
-EMAIL_USE_TLS=True
-EMAIL_PORT=587
-EMAIL_HOST_USER='dariusjosedelacruzhilario@gmail.com'
-DJANGO_FROM_EMAIL='dariusjosedelacruzhilario@gmail.com'
-EMAIL_HOST_PASSWORD='lpsrosgrnpygneqi'
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_USE_TLS = True
+EMAIL_PORT = 587
+EMAIL_HOST_USER = 'dariusjosedelacruzhilario@gmail.com'
+DJANGO_FROM_EMAIL = 'dariusjosedelacruzhilario@gmail.com'
+EMAIL_HOST_PASSWORD = 'lpsrosgrnpygneqi'
 ACCOUNT_EMAIL_REQUIRED = True
-#ACCOUNT_AUTHENTICATION_METHOD = ['username', 'email']
+# ACCOUNT_AUTHENTICATION_METHOD = ['username', 'email']
 ACCOUNT_EMAIL_VERIFICATION = 'optional'
 
-#ACCOUNT_ADAPTER = 'security.adapters.CustomAccountAdapter'
+# ACCOUNT_ADAPTER = 'security.adapters.CustomAccountAdapter'
 
-#ACCOUNT_EMAIL_VERIFICATION = "mandatory"
+# ACCOUNT_EMAIL_VERIFICATION = "mandatory"
 
 
 REST_AUTH = {
@@ -156,8 +180,6 @@ DATABASES = {
     )
 }
 
-
-
 # Password validation
 # https://docs.djangoproject.com/en/4.2/ref/settings/#auth-password-validators
 
@@ -176,7 +198,6 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-
 # Internationalization
 # https://docs.djangoproject.com/en/4.2/topics/i18n/
 
@@ -187,7 +208,6 @@ TIME_ZONE = 'UTC'
 USE_I18N = True
 
 USE_TZ = True
-
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
@@ -238,10 +258,8 @@ CORS_ORIGIN_WHITELIST = [
     'http://localhost:3000',
 ]
 CORS_ALLOW_HEADERS = [
-       'content-type',  # Agrega aquí otros encabezados personalizados si es necesario
+    'content-type',  # Agrega aquí otros encabezados personalizados si es necesario
 ]
-
-
 
 REST_FRAMEWORK = {
     'DEFAULT_SCHEMA_CLASS': 'rest_framework.schemas.coreapi.AutoSchema',

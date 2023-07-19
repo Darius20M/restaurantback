@@ -14,6 +14,9 @@ class WarehouseModel(models.Model):
         db_table = 'acc_warehouse_t'
         app_label = 'products'
 
+    def __str__(self):
+        return self.name
+
     def save(self, *args, **kwargs):
         if not self.id:
             self.created = timezone.now()

@@ -14,6 +14,9 @@ class TableModel(models.Model):
         db_table = 'pr_tables_t'
         app_label = 'reservations'
 
+    def __str__(self):
+        return self.name_type
+
     def save(self, *args, **kwargs):
         if not self.id:
             self.created = timezone.now()
