@@ -232,10 +232,16 @@ CORS_ALLOWED_ORIGINS = [
     "http://localhost:3000",
     "http://127.0.0.1:9000",
 ]
+CORS_ORIGIN_ALLOW_ALL = False
 
-CORS_ALLOW_HEADERS = [
-
+CORS_ORIGIN_WHITELIST = [
+    'http://localhost:3000',
 ]
+CORS_ALLOW_HEADERS = [
+       'content-type',  # Agrega aquí otros encabezados personalizados si es necesario
+]
+
+
 
 REST_FRAMEWORK = {
     'DEFAULT_SCHEMA_CLASS': 'rest_framework.schemas.coreapi.AutoSchema',
