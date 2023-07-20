@@ -248,20 +248,33 @@ SOCIALACCOUNT_PROVIDERS = {
     }
 }
 
-"""CORS_ALLOWED_ORIGINS = [
-    "https://example.com",
-    "https://sub.example.com",
+CORS_ALLOWED_ORIGINS = [
+    
     "http://localhost:3000",
-    "http://127.0.0.1:9000",
-]"""
+    
+]
+CORS_ORIGIN_WHITELIST = [
+    "http://localhost:3000",
+    'http://localhost:8000',
+    'http://localhost:4200',
+    'https://localhost:4200',
+    'http://localhost:4401',
+    'http://localhost:4202',
+]
+
+CORS_ALLOW_HEADERS = [
+    'x-requested-with',
+    'content-type',
+    'accept',
+    'origin',
+    'authorization',
+    'x-csrftoken',
+    'x-app-key',
+    'X-TWILIO-SIGNATURE'
+    'Accept-Encoding',
+]
 CORS_ORIGIN_ALLOW_ALL = True
 
-"""CORS_ORIGIN_WHITELIST = [
-    'http://localhost:3000',
-]"""
-"""CORS_ALLOW_HEADERS = [
-    'content-type',  # Agrega aquí otros encabezados personalizados si es necesario
-]"""
 CORS_ALLOW_HEADERS = list(default_headers)
 
 
