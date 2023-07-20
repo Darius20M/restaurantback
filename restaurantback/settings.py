@@ -13,6 +13,7 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 from pathlib import Path
 import os
 import dj_database_url
+from corsheaders.defaults import default_headers
 
 
 import environ
@@ -247,20 +248,22 @@ SOCIALACCOUNT_PROVIDERS = {
     }
 }
 
-CORS_ALLOWED_ORIGINS = [
+"""CORS_ALLOWED_ORIGINS = [
     "https://example.com",
     "https://sub.example.com",
     "http://localhost:3000",
     "http://127.0.0.1:9000",
-]
+]"""
 CORS_ORIGIN_ALLOW_ALL = True
 
-CORS_ORIGIN_WHITELIST = [
+"""CORS_ORIGIN_WHITELIST = [
     'http://localhost:3000',
-]
-CORS_ALLOW_HEADERS = [
+]"""
+"""CORS_ALLOW_HEADERS = [
     'content-type',  # Agrega aquí otros encabezados personalizados si es necesario
-]
+]"""
+CORS_ALLOW_HEADERS = list(default_headers)
+
 
 REST_FRAMEWORK = {
     'DEFAULT_SCHEMA_CLASS': 'rest_framework.schemas.coreapi.AutoSchema',
