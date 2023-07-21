@@ -32,6 +32,5 @@ urlpatterns = [
     re_path('docs/', include_docs_urls(title='Restaurant API')),
     re_path('auth/', include('dj_rest_auth.urls')),
     re_path('auth/registration/', include('dj_rest_auth.registration.urls')),
-    #re_path(r'^auth/registration/verify-email/(?P<key>[-:\w]+)/$', VerifyEmailView.as_view(), name='verify-email'),
 
 ]
