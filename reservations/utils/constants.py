@@ -3,7 +3,8 @@ TYPE_TABLE = Choices(
     ('family', 'Family'),
     ('individual', 'Individual'),
     ('couples', 'Couples'),
-    ('friends', 'Friends')
+    ('friends', 'Friends'),
+    ('business', 'Business')
 
 )
 STATUS_TABLES = Choices(

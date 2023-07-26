@@ -9,6 +9,7 @@ from reservations.models import TableModel
 
 
 def get_table(id_table):
+
     try:
         table = TableModel.objects.get(id=id_table)
     except TableModel.DoesNotExist:
@@ -18,7 +19,7 @@ def get_table(id_table):
 
 def get_order_individual(table, place):
     try:
-        order = OrdersModel.objects.filter(reservation__table=table, place=place, status='Pending')
+        order = OrdersModel.objects.filter(reservation__table=table, place=place, status='pending')
 
     except OrdersModel.DoesNotExist:
         return Response("nosir", status=status.HTTP_400_BAD_REQUEST)

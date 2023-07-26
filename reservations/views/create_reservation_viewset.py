@@ -9,6 +9,15 @@ from reservations.handlers import send_reservation_email
 from reservations.models import ReservationModel, TableModel
 from reservations.serializer import CreateReservationSerializer
 
+def get_user(user):
+    try:
+        user = User.objects.get(id = user)
+    except User.DoesNotExist:
+        return False
+    return user
+
+
+
 def get_valid_reservation(user):
     try:
         reserva = ReservationModel.objects.filter(user=user, status='Pending').exists()
@@ -33,11 +42,15 @@ class CreateReservationViewSet(APIView):
         serializer = CreateReservationSerializer(data=request.data)
         if serializer.is_valid():
 
-            if request.user.is_anonymous:
+            """if request.user.is_anonymous:
                 #return redirect('nombre_de_la_vista_de_registro_o_inicio_de_sesion')
-                return Response("logueate", status=status.HTTP_400_BAD_REQUEST)
+                return Response("logueate", status=status.HTTP_400_BAD_REQUEST)"""
+            user = get_user(user=serializer.validated_data['user_id'])
 
-            if get_valid_reservation(user=request.user):
+            if not user:
+                return Response("user no existe", status=status.HTTP_400_BAD_REQUEST)
+
+            if get_valid_reservation(user):
                 return Response("No puedes reservar tienes reserva pendiente", status=status.HTTP_400_BAD_REQUEST)
 
 
@@ -45,17 +58,17 @@ class CreateReservationViewSet(APIView):
             if table_object is None:
                 return Response("Estas mesas no hay disponibles", status=status.HTTP_400_BAD_REQUEST)
 
-            table_object.status = 'Reserved'
+            table_object.status = 'reserved'
             table_object.save()
 
             reservation = ReservationModel.objects.create(
-                user=request.user,
+                user=user,
                 phone= serializer.validated_data['phone'],
                 table=table_object,
                 checkin= serializer.validated_data['checkin'],
-                status='Pending'
+                status='pending'
             )
-            send_reservation_email(request.user, reservation.id, reservation.checkin.date, reservation.checkin.time,
+            send_reservation_email(user, reservation.id, reservation.checkin.date, reservation.checkin.time,
                                    table_object.name_type, table_object.capacity)
 
             return Response({"message": "Reserva creada exitosamente"})

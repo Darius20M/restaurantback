@@ -11,7 +11,7 @@ from . import models
 
 # Register your models here.
 class tablaAdmin(admin.ModelAdmin):
-    list_display=('name_type','capacity','status','created')
+    list_display=('code','name_type','capacity','status','created')
 
     
    
@@ -22,8 +22,15 @@ class reservaAdmin(admin.ModelAdmin):
 
     def formfield_for_foreignkey(self, db_field, request, **kwargs):
         if db_field.name == 'table':
-            kwargs['queryset'] = models.TableModel.objects.filter(status='available')
+            object_id = request.resolver_match.kwargs.get('object_id')
+            if object_id:
+                # Cuando se está editando una reserva existente
+                kwargs['queryset'] = TableModel.objects.filter(status='reserved')
+            else:
+                # Cuando se está creando una nueva reserva
+                kwargs['queryset'] = TableModel.objects.filter(status='available')
         return super().formfield_for_foreignkey(db_field, request, **kwargs)
+
     
     def delete_queryset(self, request, queryset):
             

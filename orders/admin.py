@@ -1,6 +1,7 @@
 from django.contrib import admin, messages
 
 from orders.views.create_order_viewset import get_or_create_order
+from reservations.models.reservation_model import ReservationModel
 from . import models
 
 
@@ -18,7 +19,15 @@ class OrderDetailInline(admin.TabularInline):  # Puedes usar 'admin.StackedInlin
 
 class OrderAdmin(admin.ModelAdmin):
     list_display = ('customer', 'place', 'reservation', 'order_date','total_amount','status')
+    readonly_fields = ('order_date','total_amount','status',)
     inlines = [OrderDetailInline]
+
+    def formfield_for_foreignkey(self, db_field, request, **kwargs):
+        if db_field.name == 'reservation':
+            # Filtrar las reservaciones con estado 'ongoing'
+            kwargs['queryset'] = ReservationModel.objects.filter(status='ongoing')
+
+        return super().formfield_for_foreignkey(db_field, request, **kwargs)
 
     def save_model(self, request, obj, form, change):
      
