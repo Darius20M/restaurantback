@@ -6,6 +6,6 @@ class TableSerializer(serializers.ModelSerializer):
     class Meta:
         model = TableModel
         fields = (
-            'id', 'code' 'capacity','name_type', 'status','created', 'modified',
+            'id', 'code', 'capacity','name_type', 'status','created', 'modified',
         )
         read_only_fields = ('id', 'created', 'modified',)

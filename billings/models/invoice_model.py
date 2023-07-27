@@ -20,6 +20,10 @@ class InvoiceModel(models.Model):
         db_table = 'pr_invoice_t'
         app_label = 'billings'
 
+    def __str__(self):
+        return self.invoice_number
+    
+
     def save(self, *args, **kwargs):
         if not self.id:
             self.created = timezone.now()
