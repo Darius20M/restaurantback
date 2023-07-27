@@ -20,6 +20,8 @@ class OrderDetailModel(models.Model):
     class Meta:
         db_table = 'pr_ordersdetail_t'
         app_label = 'orders'
+        verbose_name = ('Det Orden')
+        verbose_name_plural = ('Det Ordenes')
 
     def save(self, *args, **kwargs):
         if not self.id:

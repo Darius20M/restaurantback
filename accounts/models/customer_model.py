@@ -14,6 +14,8 @@ class CustomerModel(models.Model):
     class Meta:
         db_table = 'acc_customer_t'
         app_label = 'accounts'
+        verbose_name = ('Cliente')
+        verbose_name_plural = ('Clientes')
 
     def __str__(self):
         return self.first_name

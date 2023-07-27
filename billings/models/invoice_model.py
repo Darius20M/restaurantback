@@ -19,6 +19,8 @@ class InvoiceModel(models.Model):
     class Meta:
         db_table = 'pr_invoice_t'
         app_label = 'billings'
+        verbose_name = ('Factura')
+        verbose_name_plural = ('Facturas')
 
     def __str__(self):
         return self.invoice_number

@@ -17,6 +17,8 @@ class ComboModel(models.Model):
     class Meta:
         db_table = 'pr_combos_t'
         app_label = 'products'
+        verbose_name = ('Combo')
+        verbose_name_plural = ('Combos')
 
     def __str__(self):
         return self.name

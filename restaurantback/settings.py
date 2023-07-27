@@ -98,11 +98,12 @@ JAZZMIN_SETTINGS = {
     ],
 
     "show_ui_builder": True,
-
+    
 
 }
 #JAZZMIN_SETTINGS["show_ui_builder"] = True
 MIDDLEWARE = [
+    'django.middleware.locale.LocaleMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -113,6 +114,7 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
+
 
 ROOT_URLCONF = 'restaurantback.urls'
 
@@ -214,7 +216,9 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
 
 STATIC_URL = 'static/'
-STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+"""MEDIA = '/media/'
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')"""
+
 
 if not DEBUG:
     # Tell Django to copy statics to the `staticfiles` directory

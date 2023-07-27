@@ -21,6 +21,8 @@ class OrdersModel(models.Model):
     class Meta:
         db_table = 'pr_orders_t'
         app_label = 'orders'
+        verbose_name = ('Orden')
+        verbose_name_plural = ('Ordenes')
 
     def __str__(self):
         return self.customer.first_name
