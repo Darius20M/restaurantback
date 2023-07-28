@@ -17,7 +17,7 @@ class tablaAdmin(admin.ModelAdmin):
    
 
 class reservaAdmin(admin.ModelAdmin):
-    list_display = ('user','phone','checkin','status','created')
+    list_display = ('user','phone','table','checkin','status','created')
     
 
     def formfield_for_foreignkey(self, db_field, request, **kwargs):
