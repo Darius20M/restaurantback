@@ -4,7 +4,7 @@ from rest_framework import serializers
 
 
 class CreateReservationSerializer(serializers.Serializer):
-    user_id = serializers.IntegerField()
+    token = serializers.CharField()
 
     phone = serializers.CharField(max_length=20)
     #email = serializers.EmailField(max_length=100)
