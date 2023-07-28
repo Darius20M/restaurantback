@@ -3,4 +3,5 @@ from .customer_serializer import CustomerSerializer
 from .supplier_serializer import SupplierSerializer
 from .user_serializer import UserSerializer
 from .user_list_serializer import UserListSerializer
+from .delete_user_serializer import DeleteUserSerializer
 
