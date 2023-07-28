@@ -17,7 +17,7 @@ class tablaAdmin(admin.ModelAdmin):
    
 
 class reservaAdmin(admin.ModelAdmin):
-    list_display = ('user','phone','table','checkin','status','created')
+    list_display = ('user','phone','table','checkin','hour','status','created')
     
 
     def formfield_for_foreignkey(self, db_field, request, **kwargs):
@@ -50,11 +50,10 @@ class reservaAdmin(admin.ModelAdmin):
             table_object = TableModel.objects.get(id = obj.table_id)
             table_object.status = 'reserved'
             table_object.save()
-            print(obj.checkin.date)    
                 
             obj.save()
 
-            send_reservation_email(obj.user, obj.id, obj.checkin.date, obj.checkin.time,
+            send_reservation_email(obj.user, obj.id, obj.checkin, obj.hour,
                               obj.table.name_type, table_object.capacity)
             
             self.message_user(request, "La reserva se ha creado exitosamente", level='SUCCESS')
