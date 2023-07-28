@@ -27,16 +27,20 @@ def get_valid_reservation(user):
         reserva = ReservationModel.objects.filter(user=user, status='Pending').exists()
     except ReservationModel.DoesNotExist:
         return False
-
+#table=table,table__status= "Available", table_id=table.id,checkin=checkin, hour = hour
     return reserva
 
-def get_table(capacity):
+def get_table(capacity,checkin,hour):
     try:
-        table = TableModel.objects.filter(capacity=capacity, status='available').first()
-    except TableModel.DoesNotExist:
+        table = TableModel.objects.filter(capacity=capacity)
+        for i in table:
+            reserva = ReservationModel.objects.filter(table=i, checkin=checkin, hour = hour)
+            if not reserva:
+                return i
+                   
+    except :
         return Response({"message": "no existe la mesa"})
-
-    return table
+    
 
 
 class CreateReservationViewSet(APIView):
@@ -57,8 +61,12 @@ class CreateReservationViewSet(APIView):
             if get_valid_reservation(user):
                 return Response("No puedes reservar tienes reserva pendiente", status=status.HTTP_400_BAD_REQUEST)
 
+            capacity=serializer.validated_data['capacity_table']
+            checkin=serializer.validated_data['checkin']
 
-            table_object = get_table(serializer.validated_data['capacity_table'])
+            hour=serializer.validated_data['hour']
+
+            table_object = get_table(capacity,checkin,hour)
             if table_object is None:
                 return Response("Estas mesas no hay disponibles", status=status.HTTP_400_BAD_REQUEST)
 
@@ -70,9 +78,10 @@ class CreateReservationViewSet(APIView):
                 phone= serializer.validated_data['phone'],
                 table=table_object,
                 checkin= serializer.validated_data['checkin'],
+                hour= serializer.validated_data['hour'],
                 status='pending'
             )
-            send_reservation_email(user, reservation.id, reservation.checkin.date, reservation.checkin.time,
+            send_reservation_email(user, reservation.id, reservation.checkin, reservation.hour,
                                    table_object.name_type, table_object.capacity)
 
             return Response({"message": "Reserva creada exitosamente"})

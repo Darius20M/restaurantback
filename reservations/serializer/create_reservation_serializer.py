@@ -9,4 +9,7 @@ class CreateReservationSerializer(serializers.Serializer):
     phone = serializers.CharField(max_length=20)
     #email = serializers.EmailField(max_length=100)
     capacity_table = serializers.IntegerField()
-    checkin = serializers.DateTimeField()
+    checkin = serializers.DateField()
+    hour = serializers.CharField()
+
+

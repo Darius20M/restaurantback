@@ -8,7 +8,8 @@ class ReservationModel(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, related_name='reserve', on_delete=models.CASCADE)
     phone = models.CharField(max_length=25)
     table = models.ForeignKey('reservations.TableModel', on_delete=models.CASCADE)
-    checkin = models.DateTimeField(default=timezone.now)
+    checkin = models.DateField(default=timezone.now)
+    hour = models.CharField()
     status = models.CharField(max_length=20, choices=STATUS_R, default=STATUS_R.pending, null=False,
                               blank=False)
     created = models.DateTimeField(default=timezone.now, editable=False)
@@ -24,6 +25,7 @@ class ReservationModel(models.Model):
         return self.user.username
 
     def save(self, *args, **kwargs):
+
         if not self.id:
             self.created = timezone.now()
         self.modified = timezone.now()
