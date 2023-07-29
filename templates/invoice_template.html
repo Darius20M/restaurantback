@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Detalle de Factura</title>
+    <style>
+        /* Estilos CSS para tu factura (personaliza según tus necesidades) */
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.2;
+            margin: 5mm 10mm;
+        }
+        h1 {
+            font-size: 18px;
+            margin-bottom: 10px;
+        }
+        p {
+            font-size: 14px;
+            margin-bottom: 5px;
+        }
+        strong {
+            font-weight: bold;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 10px;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 5px;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+        tbody tr:hover {
+            background-color: #f2f2f2;
+        }
+        tfoot {
+            font-weight: bold;
+            color: black;
+        }
+        .footer {
+            font-size: 12px;
+            text-align: center;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div style="text-align: center;">
+        <h1>{{ restaurant_info.nombre }}</h1>
+        <p><strong>Detalle de Factura</strong></p>
+        <p><strong>Numero de factura:</strong> {{ invoice_number }}</p>
+        <p><strong>Fecha de impresion:</strong> {{ date }}</p>
+        <p><strong>Code de la mesa:</strong> {{ code }}</p>
+        <p><strong>Tipo de la mesa:</strong> {{ type }}</p>
+    </div>
+
+    <!-- Agregar más campos de la factura según tus necesidades -->
+
+    <h2>Detalle de la Orden</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>Nombre del Producto</th>
+                <th>Cantidad</th>
+                <th>Precio Unitario</th>
+                
+            </tr>
+        </thead>
+        <tbody>
+            {% for item in order %}
+            <tr>
+                <td>{{ item.product.name }} </td>
+                <td>{{ item.quantity }} </td>
+                <td>{{ item.product.price }} RD$</td>
+               
+            </tr>
+            {% endfor %}
+            <tr>
+                <td colspan="2"><strong>Subtotal:</strong></td>
+                <td>{{ subtotal }} RD$</td>
+            </tr>
+            <tr>
+                <td colspan="2"><strong>Impuestos (18%):</strong></td>
+                <td>{{ itbs }} RD$</td>
+            </tr>
+            <tr>
+                <td colspan="2"><strong>Total:</strong></td>
+                <td>{{ total_final }} RD$</td>
+            </tr>
+        </tbody>
+    </table>
+
+
+    <div class="footer">
+        <p>Gracias por su compra.</p>
+        <p>Para consultas, por favor contacte a nuestro servicio al cliente al nmero: 123-456-7890</p>
+        <p>Restaurante Delicias a la brasa</p>
+        <p>Calle del Restaurante, 123</p>
+        <p>Telefono: 123-456-7890</p>
+        <p>Email: restaurante@example.com</p>
+    </div>
+</body>
+</html>

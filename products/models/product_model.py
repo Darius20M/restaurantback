@@ -10,7 +10,6 @@ class ProductModel(models.Model):
     supplier = models.ForeignKey('accounts.SupplierModel', on_delete=models.PROTECT)
     is_enabled = models.BooleanField(default=True)
     descripcion = models.CharField(max_length=100, blank=True, null=True)
-    image=models.ImageField(upload_to='product')
     price = models.FloatField(default=0.0)
     stock = models.IntegerField(default=0, blank=False, null=False)
     created = models.DateTimeField(default=timezone.now, editable=False)

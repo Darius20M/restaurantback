@@ -1,3 +1,4 @@
+from datetime import datetime
 from django.contrib import admin, messages
 
 from billings.forms import TuModeloForm
@@ -8,18 +9,72 @@ from reservations.models.reservation_model import ReservationModel
 from . import models
 from django.urls import reverse
 from django.utils.safestring import mark_safe
+from django.template.loader import render_to_string
+from django.shortcuts import render
+from django.http import HttpResponse
+import pdfkit
 
-# Register your models here.
+
+def get_table(invoice_number):
+    try:
+        invoice = InvoiceModel.objects.get(invoice_number=invoice_number)
+        order_details_list = []  # Lista para almacenar los detalles de la orden
+
+        # Recorre todas las órdenes asociadas a la factura
+        for order in invoice.orders.all():
+            # Recorre los detalles de la orden y agrega cada detalle a la lista
+            for order_detail in order.orderdetailmodel_set.all():
+                order_details_list.append(order_detail)
+
+        return order_details_list
+
+    except InvoiceModel.DoesNotExist:
+        return []
+
+    
+def print_button(modeladmin, request, queryset):
+    
+    invoices_content = []
+
+    # Recorremos los objetos seleccionados en el queryset
+    for invoice in queryset:
+        invoice_number=invoice.invoice_number
+        order = get_table(invoice.invoice_number)
+        total = order[0].order.calculate_total_amount
+        impustos = total * 0.18
+        toal_final = total + impustos
+
+        code = order[0].order.reservation.table.code
+        type_ = order[0].order.reservation.table.name_type
+        invoice_content = render_to_string('invoice_template.html', {
+            'invoice_number': invoice_number,
+            'date': datetime.now(),
+            'total_amount':invoice.total_amount,
+            'order':order,
+            'subtotal': total,
+            'itbs': impustos,
+            'total_final': toal_final,
+            'code':code,
+            'type':type_
+            
+        })
+        invoices_content.append(invoice_content)
+
+    # Unimos el contenido de todas las facturas seleccionadas en un solo HTML
+    combined_html = "\n".join(invoices_content)
+
+    return HttpResponse(combined_html, content_type='text/html')
+
+
+
+print_button.short_description = 'Imprimir'
+
 class InvoiceAdmin(admin.ModelAdmin):
-    list_display = ('invoice_number', 'is_individual', 'total_amount', 'status', 'created', 'print_button')
+    list_display = ('invoice_number', 'is_individual', 'total_amount', 'status', 'created')
     form = TuModeloForm
     readonly_fields = ('invoice_number','total_amount','status',)
 
-    def print_button(self, request):
-        return mark_safe(f'<a href="" target="_blank">Imprimir</a>')
-         
-
-    print_button.short_description = 'Imprimir'
+    
     actions = [print_button]
    
     def save_model(self, request, obj, form, change):
@@ -93,7 +148,7 @@ class transactionAdmin(admin.ModelAdmin):
     def save_model(self, request, obj, form, change):
 
         obj.status = 'paid'
-        obj.amount = obj.invoice.total_amount
+        obj.amount = float((float(obj.invoice.total_amount) * 0.18) + float(obj.invoice.total_amount))
         obj.save()
 
         obj.invoice.status = 'completed'
