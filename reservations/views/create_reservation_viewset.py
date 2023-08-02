@@ -30,13 +30,16 @@ def get_valid_reservation(user_):
 #table=table,table__status= "Available", table_id=table.id,checkin=checkin, hour = hour
     return reserva
 
-def get_table(capacity,checkin,hour):
+def get_table(capacity,checkin,hour, user):
     try:
         table = TableModel.objects.filter(capacity=capacity)
         for i in table:
             reserva = ReservationModel.objects.filter(table=i, checkin=checkin, hour = hour)
             if not reserva:
-                return i
+                if not ReservationModel.objects.filter(user=user, checkin=checkin, hour = hour):
+
+                    return i
+
                    
     except :
         return Response({"message": "no existe la mesa"})
@@ -66,9 +69,9 @@ class CreateReservationViewSet(APIView):
 
             hour=serializer.validated_data['hour']
 
-            table_object = get_table(capacity,checkin,hour)
+            table_object = get_table(capacity,checkin,hour,user)
             if table_object is None:
-                return Response("Estas mesas no hay disponibles", status=status.HTTP_400_BAD_REQUEST)
+                return Response("mesa no disponibles o tienes una reserva para misma hora.", status=status.HTTP_400_BAD_REQUEST)
 
             table_object.status = 'reserved'
             table_object.save()
