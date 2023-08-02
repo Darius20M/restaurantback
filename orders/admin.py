@@ -59,6 +59,8 @@ class OrderAdmin(admin.ModelAdmin):
         if obj.reservation.table.capacity <= total:
             messages.error(request, 'Ya alcanzaste el limite de lugares para tu reserva.')
         else:
+            
+            
 
             existing_order = OrdersModel.objects.filter(
                 place=obj.place,
@@ -71,8 +73,14 @@ class OrderAdmin(admin.ModelAdmin):
                 messages.error(request, 'Ya existe una orden con el mismo lugar y reserva.')
             else:
                 
-                #obj.amout_total+= 
-
+                obj.save()
+                detalle_orden = []
+                amount = 0
+                for detail in obj.orderdetailmodel_set.all():
+                    t = detail.quantity * detail.product.price
+                    amount+= t
+                obj.total_amount=amount
+                obj.save()
                 super().save_model(request, obj, form, change)
 
     
