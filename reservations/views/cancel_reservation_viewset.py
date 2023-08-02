@@ -24,11 +24,11 @@ class CancelReservationViewSet(APIView):
             if reservation.status == 'Cancelled':
                 return Response({"message": "The reservation has already been canceled"}, status=status.HTTP_400_BAD_REQUEST)
 
-            reservation.status = 'Cancelled'
+            reservation.status = 'cancelled'
             reservation.save()
 
             table = reservation.table
-            table.status = 'Available'
+            table.status = 'available'
             table.save()
 
             return Response({"message": "Your reservation has been successfully canceled"})
