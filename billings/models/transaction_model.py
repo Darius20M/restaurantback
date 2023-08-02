@@ -16,8 +16,8 @@ class TransactionModel(models.Model):
     class Meta:
         db_table = 'pr_transactions_t'
         app_label = 'billings'
-        verbose_name = ('Transacción')
-        verbose_name_plural = ('Transacciónes')
+        verbose_name = ('Transation')
+        verbose_name_plural = ('Transations')
 
     def save(self, *args, **kwargs):
         if not self.id:

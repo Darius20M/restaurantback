@@ -76,7 +76,7 @@ def print_button(modeladmin, request, queryset):
 print_button.short_description = 'Imprimir'
 
 class InvoiceAdmin(admin.ModelAdmin):
-    list_display = ('nombre','apellido','invoice_number', 'is_individual', 'total_amount', 'status', 'created')
+    list_display = ('name','last_name','invoice_number', 'is_individual', 'total_amount', 'status', 'created')
     form = TuModeloForm
     readonly_fields = ('invoice_number','total_amount','status',)
 
@@ -92,8 +92,8 @@ class InvoiceAdmin(admin.ModelAdmin):
             return super().formfield_for_foreignkey(db_field, request, **kwargs)"""
    
     def save_model(self, request, obj, form, change):
-        nombre = form.cleaned_data['Nombre']
-        apellido = form.cleaned_data['Apellido']
+        nombre = form.cleaned_data['name']
+        apellido = form.cleaned_data['last_name']
         is_individual = obj.is_individual
         table = form.cleaned_data['table']
         place = form.cleaned_data['place']

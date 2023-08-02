@@ -13,8 +13,8 @@ class SupplierModel(models.Model):
     class Meta:
         db_table = 'acc_supplier_t'
         app_label = 'accounts'
-        verbose_name = ('Cuenta')
-        verbose_name_plural = ('Cuentas')
+        verbose_name = ('Supplier')
+        verbose_name_plural = ('Suppliers')
 
     def __str__(self):
         return self.first_name

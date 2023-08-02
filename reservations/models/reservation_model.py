@@ -18,8 +18,8 @@ class ReservationModel(models.Model):
     class Meta:
         db_table = 'pr_reservation_t'
         app_label = 'reservations'
-        verbose_name = ('Reservacion')
-        verbose_name_plural = ('Reservaciones')
+        verbose_name = ('Reservation')
+        verbose_name_plural = ('Reservations')
 
     def __str__(self):
         return str(self.id)

@@ -13,8 +13,8 @@ class WarehouseModel(models.Model):
     class Meta:
         db_table = 'acc_warehouse_t'
         app_label = 'products'
-        verbose_name = ('Almacen')
-        verbose_name_plural = ('Almacenes')
+        verbose_name = ('WareHouse')
+        verbose_name_plural = ('WareHouses')
 
     def __str__(self):
         return self.name

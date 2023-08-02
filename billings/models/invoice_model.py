@@ -9,8 +9,8 @@ from billings.utils.constants import STATUS_CHOICES
 
 class InvoiceModel(models.Model):
     orders = models.ManyToManyField('orders.OrdersModel')
-    nombre = models.CharField()
-    apellido = models.CharField()
+    name = models.CharField()
+    last_name = models.CharField()
     invoice_number = models.CharField(max_length=200)
     is_individual = models.BooleanField(default=True)
     total_amount = models.DecimalField(max_digits=10, decimal_places=2)
@@ -21,8 +21,8 @@ class InvoiceModel(models.Model):
     class Meta:
         db_table = 'pr_invoice_t'
         app_label = 'billings'
-        verbose_name = ('Factura')
-        verbose_name_plural = ('Facturas')
+        verbose_name = ('Invoice')
+        verbose_name_plural = ('Invoices')
 
     def __str__(self):
         return self.invoice_number

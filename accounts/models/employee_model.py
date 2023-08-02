@@ -17,8 +17,8 @@ class EmployeeModel(models.Model):
     class Meta:
         db_table = 'pr_employee_t'
         app_label = 'products'
-        verbose_name = ('Empleado')
-        verbose_name_plural = ('Empleados')
+        verbose_name = ('Employee')
+        verbose_name_plural = ('Employees')
 
     def __str__(self):
         return self.firstName

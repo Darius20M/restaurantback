@@ -14,8 +14,8 @@ class WarehouseDetailModel(models.Model):
     class Meta:
         db_table = 'acc_warehousedetail_t'
         app_label = 'products'
-        verbose_name = ('Cat Almacen')
-        verbose_name_plural = ('Cat Almacenes')
+        verbose_name = ('Cat WareHouse')
+        verbose_name_plural = ('Cat WareHouse')
 
     def save(self, *args, **kwargs):
         if not self.id:

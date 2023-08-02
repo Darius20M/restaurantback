@@ -20,8 +20,8 @@ class ProductModel(models.Model):
     class Meta:
         db_table = 'pr_products_t'
         app_label = 'products'
-        verbose_name = ('Producto')
-        verbose_name_plural = ('Productos')
+        verbose_name = ('Product')
+        verbose_name_plural = ('Products')
 
 
     def __str__(self):

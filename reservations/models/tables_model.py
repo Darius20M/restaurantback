@@ -14,8 +14,8 @@ class TableModel(models.Model):
     class Meta:
         db_table = 'pr_tables_t'
         app_label = 'reservations'
-        verbose_name = ('Mesa')
-        verbose_name_plural = ('Mesas')
+        verbose_name = ('Table')
+        verbose_name_plural = ('Tables')
 
     def __str__(self):
         return self.code

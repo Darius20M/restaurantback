@@ -12,8 +12,8 @@ class ProductCategoryModel(models.Model):
     class Meta:
         db_table = 'pr_productscategory_t'
         app_label = 'products'
-        verbose_name = ('Cat Producto')
-        verbose_name_plural = ('Cat Productos')
+        verbose_name = ('Cat Product')
+        verbose_name_plural = ('Cat Products')
 
     def __str__(self):
         return self.name
