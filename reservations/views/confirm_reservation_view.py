@@ -20,7 +20,7 @@ def confirm_reservation_view(request, reservation_id_b64, token):
         if default_token_generator.check_token(user, token):
 
             reservation = ReservationModel.objects.get(id=reservation_id)
-            reservation.status = 'Confirmed'
+            reservation.status = 'confirmed'
             reservation.save()
             # Retorna una respuesta exitosa
             html_content = render_to_string('confirmation_email.html')
