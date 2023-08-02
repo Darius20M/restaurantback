@@ -69,9 +69,12 @@ def print_button(modeladmin, request, queryset):
         toal_final = total + impustos
 
         code = order[0].order.reservation.table.code
+        place_set = {registro.order.place for registro in order}
+
+
         type_ = order[0].order.reservation.table.name_type
         invoice_content = render_to_string('invoice_template.html', {
-            #'client':
+            'client':place_set,
             'invoice_number': invoice_number,
             'date': datetime.now(),
             'total_amount':invoice.total_amount,
@@ -112,7 +115,7 @@ class InvoiceAdmin(admin.ModelAdmin):
 
     
 
-        if is_individual:
+        if True:
             order_individual=[]
             for i in place:
 
@@ -137,10 +140,10 @@ class InvoiceAdmin(admin.ModelAdmin):
                 obj.total_amount = amount
                 obj.is_individual=is_individual
                 obj.save()
-                obj.orders.set(ib)
+                obj.orders.add(*ib)
                 obj.save()
         
-                #order_individual_inst.status = 'Invoiced'
+                order_individual_inst.status = 'Invoiced'
                 order_individual_inst.total_amount = order_individual_inst.calculate_total_amount
                 order_individual_inst.save()
 
@@ -151,35 +154,8 @@ class InvoiceAdmin(admin.ModelAdmin):
                 reservation.save()
                 table.status = 'available'
                 table.save()
-
-
-        else:
-                
-            amount = 0
-            order = get_order(table)
-
-            if not order.exists():
-                return 0
-
-            for i in order.all():
-                i.status = 'Invoiced'
-                i.save()
-                amount += i.calculate_total_amount
-
+        
             
-            obj.total_amount = amount
-            obj.is_individual=is_individual
-            obj.save()
-            obj.orders.set(order)
-            obj.save()
-
-            reservation = ReservationModel.objects.get(table=table, status = 'ongoing')
-            reservation.status='completed'
-            reservation.save()
-            table.status = 'available'
-            table.save()
-            
-        return generate_invoice_html(request,obj,order_details_list)
 
 
    
