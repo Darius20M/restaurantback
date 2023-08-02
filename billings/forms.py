@@ -34,7 +34,7 @@ class TuModeloForm(forms.ModelForm):
         if len(selected_places) != len(set(selected_places)):
             raise forms.ValidationError('No se pueden seleccionar puestos duplicados.')
         return selected_places
-    
+        
     def __init__(self, *args, **kwargs):
         super(TuModeloForm, self).__init__(*args, **kwargs)
 

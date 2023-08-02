@@ -149,6 +149,8 @@ EMAIL_HOST_PASSWORD = 'lpsrosgrnpygneqi'
 ACCOUNT_EMAIL_REQUIRED = True
 # ACCOUNT_AUTHENTICATION_METHOD = ['username', 'email']
 ACCOUNT_EMAIL_VERIFICATION = 'optional'
+EMAIL_CONFIRMATION = False
+
 
 # ACCOUNT_ADAPTER = 'security.adapters.CustomAccountAdapter'
 

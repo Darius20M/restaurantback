@@ -15,29 +15,7 @@ from django.http import HttpResponse, HttpResponseRedirect
 import pdfkit
 from django.shortcuts import render
 
-def generate_invoice_html(request,obj, list):
-    nombre = obj.nombre
-    apellido = obj.apellido
-    total_amount = obj.total_amount
-    detalle_factura = []
 
-    for i in list:
-        d = {'producto': i.product.name, 'cantidad': i.quantity, 'precio_unitario': i.product.price}
-        detalle_factura.append(d)
-
-    for item in detalle_factura:
-        item['total_item'] = item['cantidad'] * item['precio_unitario']
-
-    # Renderizar la plantilla HTML con los datos de la factura
-    html_content = render_to_string('invoice_template_.html', {
-        'id': obj.id,
-        'nombre': nombre,
-        'apellido': apellido,
-        'total_amount': total_amount,
-        'detail_items': detalle_factura,
-    })
-
-    return HttpResponse(html_content, content_type='text/html')
 
 def get_table(invoice_number):
     try:
@@ -103,6 +81,8 @@ class InvoiceAdmin(admin.ModelAdmin):
     readonly_fields = ('invoice_number','total_amount','status',)
 
     
+
+    
     actions = [print_button]
    
    
@@ -122,7 +102,7 @@ class InvoiceAdmin(admin.ModelAdmin):
                 order = OrdersModel.objects.filter(reservation__table=table, place=i, status='Pending')
                 #place.remove(i)
                 if not order.exists():
-                    return self.message_user(request, "La orden {i} fue facturada o no existe", level='ERROR')   
+                    return self.message_user(request, f"La orden {i} fue facturada o no existe", level='ERROR')   
                 
                 order_individual.append(order)
 

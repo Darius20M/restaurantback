@@ -32,6 +32,7 @@ class tablaAdmin(admin.ModelAdmin):
 class reservaAdmin(admin.ModelAdmin):
     list_display = ('id','user','phone','table','checkin','hour','status','created')
     autocomplete_fields = ['table']  # Agregar esta línea
+    search_fields = ['table__code', 'id']
 
     
 
