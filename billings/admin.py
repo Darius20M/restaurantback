@@ -120,8 +120,8 @@ class InvoiceAdmin(admin.ModelAdmin):
                 amount += order_individual_inst.calculate_total_amount
 
                
-                obj.nombre=nombre
-                obj.apellido=apellido
+                obj.name=nombre
+                obj.last_name=apellido
                 obj.total_amount = amount
                 obj.is_individual=is_individual
                 obj.save()
