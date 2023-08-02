@@ -18,7 +18,7 @@ class TableModel(models.Model):
         verbose_name_plural = ('Mesas')
 
     def __str__(self):
-        return self.code + "-" + self.name_type
+        return self.code
 
     def save(self, *args, **kwargs):
         self.code = self.code.upper()

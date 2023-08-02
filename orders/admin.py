@@ -21,6 +21,14 @@ class OrderDetailInline(admin.TabularInline):  # Puedes usar 'admin.StackedInlin
     model = OrderDetailModel
     extra = 1  # Número de formularios de detalle en blanco para mostrar al editar
     
+    def save_model(self, request, obj, form, change):
+     
+        existing_order = OrdersModel.objects.filter(
+            place=obj.place,
+            reservation=obj.reservation,
+            reservation__status ='ongoing'
+        )
+    
     def formfield_for_foreignkey(self, db_field, request, **kwargs):
         if db_field.name == 'product':
             # Filtrar las reservaciones con estado 'ongoing'
@@ -28,10 +36,11 @@ class OrderDetailInline(admin.TabularInline):  # Puedes usar 'admin.StackedInlin
         return super().formfield_for_foreignkey(db_field, request, **kwargs)
     
 class OrderAdmin(admin.ModelAdmin):
-    list_display = ('customer', 'place', 'reservation', 'order_date','total_amount','status')
+    list_display = ('id','place', 'reservation', 'order_date','total_amount','status')
     readonly_fields = ('order_date','total_amount','status',)
     inlines = [OrderDetailInline]
-
+    
+    
     def formfield_for_foreignkey(self, db_field, request, **kwargs):
         if db_field.name == 'reservation':
             # Filtrar las reservaciones con estado 'ongoing'
@@ -40,7 +49,7 @@ class OrderAdmin(admin.ModelAdmin):
         return super().formfield_for_foreignkey(db_field, request, **kwargs)
 
     def save_model(self, request, obj, form, change):
-     
+        
         existing_order = OrdersModel.objects.filter(
             place=obj.place,
             reservation=obj.reservation,
@@ -52,7 +61,7 @@ class OrderAdmin(admin.ModelAdmin):
             messages.error(request, 'Ya existe una orden con el mismo lugar y reserva.')
         else:
             
-
+            #obj.amout_total+= 
 
             super().save_model(request, obj, form, change)
 

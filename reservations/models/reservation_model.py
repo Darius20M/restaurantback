@@ -22,7 +22,7 @@ class ReservationModel(models.Model):
         verbose_name_plural = ('Reservaciones')
 
     def __str__(self):
-        return self.user.username
+        return str(self.id)
 
     def save(self, *args, **kwargs):
 

@@ -9,7 +9,7 @@ from orders.utils.constants import PLACES, STATUS_ORDER
 
 
 class OrdersModel(models.Model):
-    customer = models.ForeignKey('accounts.CustomerModel', on_delete=models.CASCADE)
+    #customer = models.ForeignKey('accounts.CustomerModel', on_delete=models.CASCADE, null=True, blank=True)
     place = models.CharField(choices=PLACES, default=PLACES.A1)
     reservation = models.ForeignKey('reservations.ReservationModel', on_delete=models.CASCADE)
     order_date = models.DateField(default=timezone.now)
@@ -25,7 +25,7 @@ class OrdersModel(models.Model):
         verbose_name_plural = ('Ordenes')
 
     def __str__(self):
-        return self.customer.first_name
+        return str(self.id)
 
     def save(self, *args, **kwargs):
         if not self.id:

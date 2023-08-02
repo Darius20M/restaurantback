@@ -9,6 +9,8 @@ from billings.utils.constants import STATUS_CHOICES
 
 class InvoiceModel(models.Model):
     orders = models.ManyToManyField('orders.OrdersModel')
+    nombre = models.CharField()
+    apellido = models.CharField()
     invoice_number = models.CharField(max_length=200)
     is_individual = models.BooleanField(default=True)
     total_amount = models.DecimalField(max_digits=10, decimal_places=2)

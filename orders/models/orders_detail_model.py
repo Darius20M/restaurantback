@@ -6,8 +6,9 @@ from django.utils import timezone
 
 class OrderDetailModel(models.Model):
     order = models.ForeignKey('orders.OrdersModel', on_delete=models.CASCADE)
-    product = models.ForeignKey('products.ProductModel', on_delete=models.CASCADE)
-    quantity = models.FloatField(default=0.0)
+    product = models.ForeignKey('products.ProductModel', on_delete=models.CASCADE, null=False, blank=False)
+    comentario = models.TextField(max_length=250, null=True, blank=True)
+    quantity = models.FloatField(default=0.0, null=False, blank=False)
     created = models.DateTimeField(default=timezone.now, editable=False)
     modified = models.DateTimeField(default=timezone.now, editable=False)
 
