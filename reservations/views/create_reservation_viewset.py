@@ -22,9 +22,9 @@ def get_user(user):
 
 
 
-def get_valid_reservation(user):
+def get_valid_reservation(user_):
     try:
-        reserva = ReservationModel.objects.filter(user=user, status='Pending').exists()
+        reserva = ReservationModel.objects.filter(user=user_, status='pending')
     except ReservationModel.DoesNotExist:
         return False
 #table=table,table__status= "Available", table_id=table.id,checkin=checkin, hour = hour
@@ -58,7 +58,7 @@ class CreateReservationViewSet(APIView):
             if not user:
                 return Response("user no existe", status=status.HTTP_400_BAD_REQUEST)
 
-            if get_valid_reservation(user):
+            if  get_valid_reservation(user):
                 return Response("No puedes reservar tienes reserva pendiente", status=status.HTTP_400_BAD_REQUEST)
 
             capacity=serializer.validated_data['capacity_table']
