@@ -92,8 +92,8 @@ class InvoiceAdmin(admin.ModelAdmin):
             return super().formfield_for_foreignkey(db_field, request, **kwargs)"""
    
     def save_model(self, request, obj, form, change):
-        nombre = form.cleaned_data['name']
-        apellido = form.cleaned_data['last_name']
+        nombre = form.cleaned_data['Nombre']
+        apellido = form.cleaned_data['Apellido']
         is_individual = obj.is_individual
         table = form.cleaned_data['table']
         place = form.cleaned_data['place']
