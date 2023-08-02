@@ -84,7 +84,12 @@ class InvoiceAdmin(admin.ModelAdmin):
 
     
     actions = [print_button]
-   
+
+    """def change_view(self, request, object_id, form_url='', extra_context=None):
+        def formfield_for_foreignkey(self, db_field, request, **kwargs):
+            if db_field.name == 'table':
+                kwargs['queryset'] = models.TableModel.objects.filter(status='reserved')
+            return super().formfield_for_foreignkey(db_field, request, **kwargs)"""
    
     def save_model(self, request, obj, form, change):
         nombre = form.cleaned_data['Nombre']

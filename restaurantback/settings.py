@@ -148,7 +148,7 @@ DJANGO_FROM_EMAIL = 'dariusjosedelacruzhilario@gmail.com'
 EMAIL_HOST_PASSWORD = 'lpsrosgrnpygneqi'
 ACCOUNT_EMAIL_REQUIRED = True
 # ACCOUNT_AUTHENTICATION_METHOD = ['username', 'email']
-ACCOUNT_EMAIL_VERIFICATION = 'optional'
+ACCOUNT_EMAIL_VERIFICATION = 'none'
 EMAIL_CONFIRMATION = False
 
 
@@ -206,7 +206,7 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/4.2/topics/i18n/
 
-LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = 'es-es'
 
 TIME_ZONE = 'UTC'
 
