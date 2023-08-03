@@ -73,14 +73,15 @@ class OrderAdmin(admin.ModelAdmin):
                 messages.error(request, 'Ya existe una orden con el mismo lugar y reserva.')
             else:
                 
-                obj.save()
+                """obj.save()
                 detalle_orden = []
                 amount = 0
                 for detail in obj.orderdetailmodel_set.all():
                     t = detail.quantity * detail.product.price
                     amount+= t
                 obj.total_amount=amount
-                obj.save()
+                obj.save()"""
+                
                 super().save_model(request, obj, form, change)
 
     
