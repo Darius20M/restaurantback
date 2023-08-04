@@ -1,12 +1,15 @@
 from allauth.account.adapter import DefaultAccountAdapter
-
+from allauth.account.models import EmailConfirmation
+from allauth.account.adapter import DefaultAccountAdapter
 
 class CustomAccountAdapter(DefaultAccountAdapter):
-    def get_email_confirmation_url(self, request, emailconfirmation):
-        # Obtiene el enlace de confirmación generado por Allauth
-        url = super().get_email_confirmation_url(request, emailconfirmation)
+    
+    def send_mail(self, template_prefix, email, context, subject=None):
+        context['EMAIL_TO'] = email
+        msg = self.render_mail(template_prefix, email, context)
+        subject = "Bienvenido a Delicias a la Brasa"
 
-        # Reemplaza "/account-confirm-email/" por "/verification-email/"
-        custom_url = url.replace("/account-confirm-email/", "/verify-email/")
+        if subject:
+            msg.subject = subject
 
-        return custom_url
+        msg.send()

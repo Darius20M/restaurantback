@@ -148,13 +148,12 @@ DJANGO_FROM_EMAIL = 'dariusjosedelacruzhilario@gmail.com'
 EMAIL_HOST_PASSWORD = 'lpsrosgrnpygneqi'
 ACCOUNT_EMAIL_REQUIRED = True
 # ACCOUNT_AUTHENTICATION_METHOD = ['username', 'email']
-ACCOUNT_EMAIL_VERIFICATION = 'none'
-EMAIL_CONFIRMATION = False
+EMAIL_CONFIRMATION = True
+#ACCOUNT_ADAPTER = "security.views.CustomAccountAdapter"
 
+ACCOUNT_ADAPTER = 'security.adapters.CustomAccountAdapter'
 
-# ACCOUNT_ADAPTER = 'security.adapters.CustomAccountAdapter'
-
-# ACCOUNT_EMAIL_VERIFICATION = "mandatory"
+#ACCOUNT_EMAIL_VERIFICATION = "none"
 
 
 REST_AUTH = {
