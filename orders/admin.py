@@ -46,11 +46,21 @@ class OrderAdmin(admin.ModelAdmin):
 
     get_reservation_code.short_description = 'Table'
     get_reservation_code.admin_order_field = 'reservation__table__code'
+
+    def get_queryset(self, request):
+        qs = super().get_queryset(request)
+        if not request.user.is_superuser:
+            # Filtrar las mesas asignadas al usuario actual
+            reservas_asignadas = ReservationModel.objects.filter(table__assigned_to=request.user)
+            # Filtrar las órdenes que tienen mesas relacionadas con el usuario actual
+            ordenes_filtradas = qs.filter(reservation__in=reservas_asignadas)
+            return ordenes_filtradas
+        return qs
     
     def formfield_for_foreignkey(self, db_field, request, **kwargs):
         if db_field.name == 'reservation':
             # Filtrar las reservaciones con estado 'ongoing'
-            kwargs['queryset'] = ReservationModel.objects.filter(status='ongoing')
+            kwargs['queryset'] = ReservationModel.objects.filter(table__assigned_to=request.user,status='ongoing')
     
         return super().formfield_for_foreignkey(db_field, request, **kwargs)
 
@@ -60,8 +70,6 @@ class OrderAdmin(admin.ModelAdmin):
             messages.error(request, 'Ya alcanzaste el limite de lugares para tu reserva.')
         else:
             
-            
-
             existing_order = OrdersModel.objects.filter(
                 place=obj.place,
                 reservation=obj.reservation,
@@ -73,14 +81,14 @@ class OrderAdmin(admin.ModelAdmin):
                 messages.error(request, 'Ya existe una orden con el mismo lugar y reserva.')
             else:
                 
-                """obj.save()
+                obj.save()
                 detalle_orden = []
                 amount = 0
                 for detail in obj.orderdetailmodel_set.all():
                     t = detail.quantity * detail.product.price
                     amount+= t
                 obj.total_amount=amount
-                obj.save()"""
+                obj.save()
                 
                 super().save_model(request, obj, form, change)
 

@@ -5,7 +5,9 @@ from rest_framework.response import Response
 from reservations.handlers import send_reservation_email
 from reservations.models.reservation_model import ReservationModel
 from reservations.models.tables_model import TableModel
-from django.contrib.auth.models import User
+from django.contrib.auth.models import User, Group
+from django.contrib.admin.widgets import FilteredSelectMultiple
+
 
 
 from . import models
@@ -22,9 +24,7 @@ def get_table(capacity,checkin,hour,s):
 
             return Response({"message": "no existe la mesa"})
 # Register your models here.
-class tablaAdmin(admin.ModelAdmin):
-    list_display=('id','code','name_type','capacity','status','created')
-    search_fields = ['code', 'id','capacity']
+
 
     
    
@@ -34,7 +34,15 @@ class reservaAdmin(admin.ModelAdmin):
     autocomplete_fields = ['table']  # Agregar esta línea
     search_fields = ['table__code', 'id']
 
-    
+    def get_queryset(self, request):
+        qs = super().get_queryset(request)
+        if not request.user.is_superuser:
+            # Filtrar las mesas asignadas al usuario actual
+            mesas_asignadas = TableModel.objects.filter(assigned_to=request.user)
+            # Filtrar las reservas que tienen mesas relacionadas con el usuario actual
+            reservas_filtradas = qs.filter(table__in=mesas_asignadas)
+            return reservas_filtradas
+        return qs
 
     def formfield_for_foreignkey(self, db_field, request, **kwargs):
         if db_field.name == 'user':
@@ -99,6 +107,31 @@ class reservaAdmin(admin.ModelAdmin):
             self.message_user(request, "La reserva se ha modificado exitosamente", level='SUCCESS')
         return super().change_view(request, object_id, form_url=form_url, extra_context=extra_context)
         
+class tablaAdmin(admin.ModelAdmin):
+    list_display=('id','code','name_type','capacity','status','created')
+    search_fields = ['code', 'id','capacity']
+
+    def formfield_for_manytomany(self, db_field, request, **kwargs):
+        if db_field.name == 'assigned_to':
+            # Filtrar usuarios que pertenecen al grupo 'meseros'
+            meseros_group = Group.objects.get(name='Servers')
+            kwargs['queryset'] = User.objects.filter(groups=meseros_group)
+            # Establecer el widget FilteredSelectMultiple para seleccionar múltiples meseros
+            kwargs['widget'] = FilteredSelectMultiple('Servers', is_stacked=False)
+        return super().formfield_for_manytomany(db_field, request, **kwargs)
+
+
+
+
+    def get_queryset(self, request):
+        qs = super().get_queryset(request)
+        if not request.user.is_superuser:
+            # Obtiene los primeros 5 registros para el usuario actual
+            ids_to_show = qs.filter(assigned_to=request.user).values_list('id', flat=True)
+            # Filtra los registros por los IDs obtenidos
+            qs = qs.filter(id__in=ids_to_show)
+        return qs
+
 
 
 
