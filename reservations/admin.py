@@ -36,8 +36,8 @@ class reservaAdmin(admin.ModelAdmin):
 
     def get_queryset(self, request):
         qs = super().get_queryset(request)
-        if not request.user.is_superuser:
-            # Filtrar las mesas asignadas al usuario actual
+        meseros_group = Group.objects.get(name='Servers')
+        if not request.user.is_superuser and meseros_group in request.user.groups.all():            # Filtrar las mesas asignadas al usuario actual
             mesas_asignadas = TableModel.objects.filter(assigned_to=request.user)
             # Filtrar las reservas que tienen mesas relacionadas con el usuario actual
             reservas_filtradas = qs.filter(table__in=mesas_asignadas)
@@ -113,6 +113,7 @@ class tablaAdmin(admin.ModelAdmin):
 
     def formfield_for_manytomany(self, db_field, request, **kwargs):
         if db_field.name == 'assigned_to':
+
             # Filtrar usuarios que pertenecen al grupo 'meseros'
             meseros_group = Group.objects.get(name='Servers')
             kwargs['queryset'] = User.objects.filter(groups=meseros_group)
@@ -125,11 +126,15 @@ class tablaAdmin(admin.ModelAdmin):
 
     def get_queryset(self, request):
         qs = super().get_queryset(request)
-        if not request.user.is_superuser:
-            # Obtiene los primeros 5 registros para el usuario actual
+
+        # Verifica si el usuario pertenece al grupo 'Servers'
+        meseros_group = Group.objects.get(name='Servers')
+        if not request.user.is_superuser and meseros_group in request.user.groups.all():
+            # Obtiene los primeros 5 registros para el usuario actual que pertenece al grupo 'Servers'
             ids_to_show = qs.filter(assigned_to=request.user).values_list('id', flat=True)
             # Filtra los registros por los IDs obtenidos
             qs = qs.filter(id__in=ids_to_show)
+
         return qs
 
 

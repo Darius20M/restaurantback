@@ -6,6 +6,7 @@ from products.models.product_model import ProductModel
 from reservations.models.reservation_model import ReservationModel
 from reservations.models.tables_model import TableModel
 from . import models
+from django.contrib.auth.models import User, Group
 
 
 from django.contrib import admin
@@ -49,8 +50,8 @@ class OrderAdmin(admin.ModelAdmin):
 
     def get_queryset(self, request):
         qs = super().get_queryset(request)
-        if not request.user.is_superuser:
-            # Filtrar las mesas asignadas al usuario actual
+        meseros_group = Group.objects.get(name='Servers')
+        if not request.user.is_superuser and meseros_group in request.user.groups.all():            # Filtrar las mesas asignadas al usuario actual
             reservas_asignadas = ReservationModel.objects.filter(table__assigned_to=request.user)
             # Filtrar las órdenes que tienen mesas relacionadas con el usuario actual
             ordenes_filtradas = qs.filter(reservation__in=reservas_asignadas)
