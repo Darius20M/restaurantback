@@ -7,8 +7,9 @@ from reservations.models.tables_model import TableModel
 from .models import InvoiceModel
 
 class TuModeloForm(forms.ModelForm):
-    Nombre = forms.CharField()
-    Apellido = forms.CharField()
+    Name = forms.CharField()
+    Last = forms.CharField()
+    Tax_receipt = forms.CharField(required=False)
     table = forms.ModelChoiceField(queryset=None, required=False)
     place = forms.MultipleChoiceField(
         required=True,

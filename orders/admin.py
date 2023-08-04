@@ -61,8 +61,13 @@ class OrderAdmin(admin.ModelAdmin):
     
     def formfield_for_foreignkey(self, db_field, request, **kwargs):
         if db_field.name == 'reservation':
-            # Filtrar las reservaciones con estado 'ongoing'
-            kwargs['queryset'] = ReservationModel.objects.filter(table__assigned_to=request.user,status='ongoing')
+            meseros_group = Group.objects.get(name='Servers')
+
+            if not request.user.is_superuser and meseros_group in request.user.groups.all():
+                kwargs['queryset'] = ReservationModel.objects.filter(table__assigned_to=request.user,status='ongoing')
+            else:
+                kwargs['queryset'] = ReservationModel.objects.filter(status='ongoing')
+
     
         return super().formfield_for_foreignkey(db_field, request, **kwargs)
 

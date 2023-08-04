@@ -42,8 +42,11 @@ def print_button(modeladmin, request, queryset):
     for invoice in queryset:
         invoice_number=invoice.invoice_number
         order = get_table(invoice.invoice_number)
-        total = order[0].order.calculate_total_amount
-        impustos = total * 0.18
+        total = 0
+
+        for order_item in order:
+            total += order_item.quantity * order_item.product.price
+        impustos = round(total * 0.18,2)
         toal_final = total + impustos
 
         code = order[0].order.reservation.table.code
@@ -73,7 +76,7 @@ def print_button(modeladmin, request, queryset):
 
 
 
-print_button.short_description = 'Imprimir'
+print_button.short_description = 'Print'
 
 class InvoiceAdmin(admin.ModelAdmin):
     list_display = ('name','last_name','invoice_number', 'is_individual', 'total_amount', 'status', 'created')
@@ -92,8 +95,8 @@ class InvoiceAdmin(admin.ModelAdmin):
             return super().formfield_for_foreignkey(db_field, request, **kwargs)"""
    
     def save_model(self, request, obj, form, change):
-        nombre = form.cleaned_data['Nombre']
-        apellido = form.cleaned_data['Apellido']
+        nombre = form.cleaned_data['Name']
+        apellido = form.cleaned_data['Last']
         is_individual = obj.is_individual
         table = form.cleaned_data['table']
         place = form.cleaned_data['place']
@@ -129,7 +132,7 @@ class InvoiceAdmin(admin.ModelAdmin):
                 obj.save()
         
                 order_individual_inst.status = 'Invoiced'
-                order_individual_inst.total_amount = order_individual_inst.calculate_total_amount
+                #order_individual_inst.total_amount = order_individual_inst.calculate_total_amount
                 order_individual_inst.save()
 
 
