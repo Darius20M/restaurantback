@@ -11,6 +11,7 @@ from django.contrib.auth.models import User, Group
 
 from django.contrib import admin
 from .models import OrdersModel, OrderDetailModel
+from django.db import transaction
 
 
 class OrderdetailAdmin(admin.ModelAdmin):
@@ -65,33 +66,34 @@ class OrderAdmin(admin.ModelAdmin):
     
         return super().formfield_for_foreignkey(db_field, request, **kwargs)
 
-    def save_model(self, request, obj, form, change):
+    def save_related(self, request, form, formsets, change):
+        super().save_related(request, form, formsets, change)
+
+        obj = form.instance
         total = OrdersModel.objects.filter(reservation__id=obj.reservation_id).count()
-        if obj.reservation.table.capacity <= total:
-            messages.error(request, 'Ya alcanzaste el limite de lugares para tu reserva.')
+        
+        if obj.reservation.table.capacity <= total-1:
+            messages.error(request, 'Ya alcanzaste el límite de lugares para tu reserva.')
+            obj.delete()
         else:
-            
             existing_order = OrdersModel.objects.filter(
                 place=obj.place,
                 reservation=obj.reservation,
-                reservation__status ='ongoing'
-
-            ).exclude(pk=obj.pk).exists()  # Excluimos el objeto actual (pk=obj.pk) para evitar compararlo consigo mismo
+                reservation__status='ongoing'
+            ).exclude(pk=obj.pk).exists()
 
             if existing_order:
                 messages.error(request, 'Ya existe una orden con el mismo lugar y reserva.')
+                obj.delete()
             else:
-                
-                obj.save()
-                detalle_orden = []
-                amount = 0
-                for detail in obj.orderdetailmodel_set.all():
-                    t = detail.quantity * detail.product.price
-                    amount+= t
-                obj.total_amount=amount
-                obj.save()
-                
-                super().save_model(request, obj, form, change)
+                with transaction.atomic():
+                    amount = 0
+                    for detail in obj.orderdetailmodel_set.all():
+                        t = detail.quantity * detail.product.price
+                        amount += t
+
+                    obj.total_amount = amount
+                    obj.save()
 
     
 
