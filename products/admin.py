@@ -11,6 +11,7 @@ class comboAdmin(admin.ModelAdmin):
 
 class ProductAdmin(admin.ModelAdmin):
     list_display=('name','category','supplier','is_enabled','price','stock','status','descripcion')
+    search_fields = ('name',)
 
     def is_stock_low(self, request):
         # Obtener todos los productos activos con stock igual o menor a 20
